@@ -287,6 +287,11 @@
 
     function onMessageReceived(ev) {
         var data = ev.data;
+        if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
+            var profileKey = data.message.profileKey.toArrayBuffer();
+            var sender = ConversationController.add({ id: data.source });
+            return sender.setProfileKey(profileKey).then(ev.confirm);
+        }
         var message = initIncomingMessage(data);
 
         return isMessageDuplicate(message).then(function(isDuplicate) {
@@ -305,6 +310,12 @@
     function onSentMessage(ev) {
         var now = new Date().getTime();
         var data = ev.data;
+
+        if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
+            var id = data.message.group ? data.message.group.id : data.destination;
+            var convo = ConversationController.add({ id: id });
+            return convo.save({profileSharing: true}).then(ev.confirm);
+        }
 
         var message = new Whisper.Message({
             source         : textsecure.storage.user.getNumber(),
