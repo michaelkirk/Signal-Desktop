@@ -101,6 +101,11 @@
                 type: type
             });
             return new Promise(function(resolve, reject) {
+                // If this conversation is already loaded, don't need to do it again
+                if (conversation.get('timestamp')) {
+                    return resolve(conversation);
+                }
+
                 conversation.fetch().then(function() {
                     resolve(conversation);
                 }, function() {
