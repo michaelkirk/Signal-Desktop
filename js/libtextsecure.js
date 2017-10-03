@@ -40216,6 +40216,7 @@ textsecure.MessageSender = function(url, username, password, cdn_url) {
     this.sendExpirationTimerUpdateToGroup  = sender.sendExpirationTimerUpdateToGroup .bind(sender);
     this.sendRequestGroupSyncMessage       = sender.sendRequestGroupSyncMessage      .bind(sender);
     this.sendRequestContactSyncMessage     = sender.sendRequestContactSyncMessage    .bind(sender);
+    this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(sender);
     this.sendMessageToNumber               = sender.sendMessageToNumber              .bind(sender);
     this.closeSession                      = sender.closeSession                     .bind(sender);
     this.sendMessageToGroup                = sender.sendMessageToGroup               .bind(sender);
